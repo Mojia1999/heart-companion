@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6d3de8">
+<title>HEART — A Space to Be Heard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#faf8ff;color:#252039}
+header{background:#6d3de8;color:white;padding:22px 18px;border-radius:0 0 24px 24px}
+.brand{font-size:27px;font-weight:800;letter-spacing:2px}
+header p{margin:8px 0 0;line-height:1.5}
+main{max-width:650px;margin:auto;padding:20px 16px 40px}
+h2{font-size:23px;margin-bottom:8px}
+.muted{color:#6e687d;line-height:1.5}
+.card{background:white;border:1px solid #ece7f7;border-radius:18px;padding:17px;margin:15px 0;box-shadow:0 4px 16px #24124b08}
+button{font-size:15px;cursor:pointer;border:1px solid #ded5f7;border-radius:12px;padding:12px;background:#f7f3ff;color:#39246c;text-align:left}
+button:hover{background:#ece3ff}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.primary{background:#6d3de8;color:white;border:0;text-align:center}
+.primary:hover{background:#5428c8}
+#chat{min-height:150px;max-height:360px;overflow:auto}
+.bubble{padding:12px 14px;border-radius:15px;margin:10px 0;line-height:1.5;white-space:pre-wrap}
+.bot{background:#f0eaff;margin-right:12px}
+.user{background:#6d3de8;color:white;margin-left:35px}
+.inputrow{display:flex;gap:8px;margin-top:12px}
+input{min-width:0;flex:1;border:1px solid #ddd4ef;border-radius:12px;padding:13px;font-size:15px}
+.inputrow button{text-align:center}
+footer{text-align:center;color:#777087;font-size:12px;line-height:1.6;padding:20px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">💜 HEART</div>
+  <p>A safe space to talk, understand your feelings, and find your next step.</p>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Welcome. What's on your heart?</h2>
+    <p class="muted">You don't have to figure everything out at once. Choose what feels closest to your situation.</p>
+    <div class="choices">
+      <button onclick="start('talk')">💬 I need someone to talk to</button>
+      <button onclick="start('advice')">🧭 I need relationship advice</button>
+      <button onclick="start('message')">✍️ Help me reply to a message</button>
+      <button onclick="start('trust')">🤝 Trust and jealousy</button>
+      <button onclick="start('heartbreak')">💔 I'm hurting or heartbroken</button>
+      <button onclick="start('understand')">🪞 Understand my feelings</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Your space to be heard</h2>
+    <p class="muted">Start by sharing only what you're comfortable sharing.</p>
+    <div id="chat" aria-live="polite">
+      <div class="bubble bot">Hi, friend. ❤️ I'm here to help you reflect without judging you. What has been happening?</div>
+    </div>
+    <div class="inputrow">
+      <input id="message" placeholder="Type what is on your mind..." aria-label="Your message">
+      <button class="primary" onclick="send()">Send</button>
+    </div>
+    <p class="muted" style="font-size:12px">Prototype mode: replies are guided prompts, not live AI. Avoid sharing passwords, addresses, or identifying private details.</p>
+  </section>
+
+  <section class="card">
+    <h2>One gentle reminder</h2>
+    <p class="muted">Healthy love needs respect, honesty, communication, boundaries, and safety. You deserve to be heard, and so does the other person.</p>
+    <button onclick="showReminder()">Give me a reflection question 💜</button>
+    <p id="reminder" class="muted"></p>
+  </section>
+</main>
+
+<footer>
+  HEART — Human Emotions, Advice, Reflection & Trust<br>
+  A supportive companion, not a replacement for professional care.<br>
+  If you are in immediate danger, seek help from trusted people or local emergency services.
+</footer>
+
+<script>
+const chat=document.getElementById('chat');
+const input=document.getElementById('message');
+
+function addBubble(text,who){
+  const div=document.createElement('div');
+  div.className='bubble '+who;
+  div.textContent=text;
+  chat.appendChild(div);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+function start(type){
+  const prompts={
+    talk:"Let's take this one step at a time. What happened, and how has it made you feel?",
+    advice:"I can help you think through your options. What happened, and what outcome are you hoping for?",
+    message:"You can describe the message and the tone you want—calm, caring, firm, or apologetic. Please leave out names and private details.",
+    trust:"Trust can be difficult when fear or uncertainty enters a relationship. What happened that made you feel worried? Let's separate what you know from what you fear.",
+    heartbreak:"I'm sorry you're hurting. You don't need to solve everything right now. What feels hardest for you at this moment?",
+    understand:"Let's explore your feelings without judging them. What happened just before you started feeling this way?"
+  };
+  addBubble(prompts[type],'bot');
+  input.focus();
+}
+
+function send(){
+  const text=input.value.trim();
+  if(!text)return;
+  addBubble(text,'user');
+  input.value='';
+  const lower=text.toLowerCase();
+  let reply="Thank you for sharing that with me. What do you think hurt you most about this situation, and what would you need to feel heard or respected?";
+  if(lower.includes('cheat')||lower.includes('cheating'))
+    reply="That uncertainty can hurt. Before reaching a conclusion, let's look at what you know, what you suspect, and what you need to ask. What happened that raised your concern?";
+  else if(lower.includes('break up')||lower.includes('breakup'))
+    reply="That sounds like a big and possibly painful decision. You don't have to decide everything in this moment. Do you feel safe in this relationship, and have you been able to talk honestly about what is wrong?";
+  else if(lower.includes('sorry')||lower.includes('apolog'))
+    reply="A thoughtful apology acknowledges the impact, takes responsibility where appropriate, and avoids pressure. What do you want the other person to understand?";
+  else if(lower.includes('lonely')||lower.includes('alone'))
+    reply="Feeling alone can be heavy. Is there someone trustworthy you can talk to today? I'm also happy to help you put your feelings into words.";
+  else if(lower.includes('hurt myself')||lower.includes('end my life')||lower.includes('kill myself'))
+    reply="I'm really sorry you're in this much pain. Your safety matters right now. Please contact someone you trust and ask them to stay with you, and reach local emergency or crisis support if you may act on these thoughts. Are you in immediate danger right now?";
+  addBubble(reply,'bot');
+}
+
+input.addEventListener('keydown',function(e){
+  if(e.key==='Enter')send();
+});
+
+function showReminder(){
+  const questions=[
+    "Am I responding to what happened, or to what I fear might happen?",
+    "Can we discuss this without insults, threats, or pressure?",
+    "What boundary would help me feel respected while respecting the other person?",
+    "What do I need right now: comfort, clarity, an apology, or a practical next step?",
+    "What would I advise a friend I care about if they were facing this situation?"
+  ];
+  document.getElementById('reminder').textContent=
+    questions[Math.floor(Math.random()*questions.length)];
+}
+</script>
+</body>
+</html>
