@@ -1,40 +1,52 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#6d3de8">
+<meta name="theme-color" content="#5a29e3">
 <title>HEART — A Space to Be Heard</title>
+<link rel="preconnect" href="https://googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#faf8ff;color:#252039}
-header{background:#6d3de8;color:white;padding:22px 18px;border-radius:0 0 24px 24px}
-.brand{font-size:27px;font-weight:800;letter-spacing:2px}
-header p{margin:8px 0 0;line-height:1.5}
-main{max-width:650px;margin:auto;padding:20px 16px 40px}
-h2{font-size:23px;margin-bottom:8px}
-.muted{color:#6e687d;line-height:1.5}
-.card{background:white;border:1px solid #ece7f7;border-radius:18px;padding:17px;margin:15px 0;box-shadow:0 4px 16px #24124b08}
-button{font-size:15px;cursor:pointer;border:1px solid #ded5f7;border-radius:12px;padding:12px;background:#f7f3ff;color:#39246c;text-align:left}
-button:hover{background:#ece3ff}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
-.primary{background:#6d3de8;color:white;border:0;text-align:center}
-.primary:hover{background:#5428c8}
-#chat{min-height:150px;max-height:360px;overflow:auto}
-.bubble{padding:12px 14px;border-radius:15px;margin:10px 0;line-height:1.5;white-space:pre-wrap}
-.bot{background:#f0eaff;margin-right:12px}
-.user{background:#6d3de8;color:white;margin-left:35px}
-.inputrow{display:flex;gap:8px;margin-top:12px}
-input{min-width:0;flex:1;border:1px solid #ddd4ef;border-radius:12px;padding:13px;font-size:15px}
+body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#f8f6fc;color:#2c2643;-webkit-font-smoothing:antialiased}
+header{background:linear-gradient(135deg, #6d3de8, #5227cc);color:white;padding:32px 24px;border-radius:0 0 32px 32px;box-shadow:0 8px 24px rgba(109,61,232,0.15)}
+.brand{font-size:28px;font-weight:800;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px}
+header p{margin:12px 0 0;line-height:1.6;font-size:15px;color:#e8ddff;font-weight:400}
+main{max-width:600px;margin:auto;padding:24px 16px 48px}
+h2{font-size:20px;font-weight:700;margin:0 0 8px 0;letter-spacing:-0.3px}
+.muted{color:#766e8a;line-height:1.6;font-size:14px;margin:0}
+.card{background:white;border:1px solid rgba(109,61,232,0.06);border-radius:24px;padding:24px;margin-bottom:20px;box-shadow:0 12px 32px rgba(36,18,75,0.04)}
+button{font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;border:1px solid #eae4f6;border-radius:16px;padding:14px 16px;background:#fbf9ff;color:#432b80;text-align:left;transition:all 0.2s ease;display:flex;align-items:center;gap:10px;line-height:1.4}
+button:hover, button:active{background:#f3ecff;border-color:#dcd1f3;transform:translateY(-1px)}
+.choices{display:grid;grid-template-columns:1fr;gap:10px;margin-top:20px}
+@media(min-width:400px){.choices{grid-template-columns:1fr 1fr}}
+.primary{background:#6d3de8;color:white;border:0;text-align:center;justify-content:center;font-weight:600;box-shadow:0 4px 12px rgba(109,61,232,0.2)}
+.primary:hover, .primary:active{background:#5428c8;box-shadow:0 6px 16px rgba(109,61,232,0.3)}
+.mic-btn{background:#f1ebff;color:#6d3de8;border:1px solid #e2daf2;padding:0 16px}
+.mic-btn.recording{background:#ff4d4d;color:white;border-color:#ff4d4d;animation:pulse 1.5s infinite}
+#chat{min-height:180px;max-height:380px;overflow-y:auto;margin-bottom:16px;padding-right:4px}
+.bubble{padding:14px 18px;border-radius:20px;margin:12px 0;line-height:1.5;white-space:pre-wrap;font-size:14px;max-width:85%}
+.bot{background:#f3f1f8;color:#2c2643;border-bottom-left-radius:6px;margin-right:auto;border:1px solid #edeaf4}
+.user{background:#6d3de8;color:white;border-bottom-right-radius:6px;margin-left:auto;box-shadow:0 4px 12px rgba(109,61,232,0.15)}
+.inputrow{display:flex;gap:10px;margin-top:16px}
+input{font-family:inherit;min-width:0;flex:1;border:1.5px solid #e2daf2;border-radius:16px;padding:14px 16px;font-size:15px;background:#fdfcff;color:#2c2643;transition:all 0.2s ease}
+input:focus{outline:none;border-color:#6d3de8;box-shadow:0 0 0 3px rgba(109,61,232,0.1)}
 .inputrow button{text-align:center}
-footer{text-align:center;color:#777087;font-size:12px;line-height:1.6;padding:20px}
+footer{text-align:center;color:#857e96;font-size:12px;line-height:1.6;padding:24px 16px;font-weight:400}
 .hidden{display:none}
+#reminder{margin-top:12px;padding:12px 16px;background:#fbf9ff;border-radius:12px;border-left:3px solid #6d3de8;font-style:italic}
+@keyframes pulse{0%{opacity:1}50%{opacity:0.6}100%{opacity:1}}
 </style>
 </head>
-<body>
+</head>
+<body class="light-theme">
 <header>
-  <div class="brand">💜 HEART</div>
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <div class="brand">💜 HEART</div>
+    <button onclick="toggleTheme()" style="padding:8px 12px; font-size:14px; border-radius:12px; background:rgba(255,255,255,0.15); color:white; border:none;" id="themeBtn">🌙 Dark</button>
+  </div>
   <p>A safe space to talk, understand your feelings, and find your next step.</p>
 </header>
 
@@ -43,12 +55,12 @@ footer{text-align:center;color:#777087;font-size:12px;line-height:1.6;padding:20
     <h2>Welcome. What's on your heart?</h2>
     <p class="muted">You don't have to figure everything out at once. Choose what feels closest to your situation.</p>
     <div class="choices">
-      <button onclick="start('talk')">💬 I need someone to talk to</button>
-      <button onclick="start('advice')">🧭 I need relationship advice</button>
-      <button onclick="start('message')">✍️ Help me reply to a message</button>
+      <button onclick="start('talk')">💬 I need to talk</button>
+      <button onclick="start('advice')">🧭 Relationship advice</button>
+      <button onclick="start('message')">✍️ Reply to a message</button>
       <button onclick="start('trust')">🤝 Trust and jealousy</button>
-      <button onclick="start('heartbreak')">💔 I'm hurting or heartbroken</button>
-      <button onclick="start('understand')">🪞 Understand my feelings</button>
+      <button onclick="start('heartbreak')">💔 Hurting or heartbroken</button>
+      <button onclick="start('understand')">🪞 Understand feelings</button>
     </div>
   </section>
 
@@ -59,17 +71,18 @@ footer{text-align:center;color:#777087;font-size:12px;line-height:1.6;padding:20
       <div class="bubble bot">Hi, friend. ❤️ I'm here to help you reflect without judging you. What has been happening?</div>
     </div>
     <div class="inputrow">
-      <input id="message" placeholder="Type what is on your mind..." aria-label="Your message">
+      <button id="micBtn" class="mic-btn" onclick="toggleVoice()" title="Talk instead of typing">🎙️</button>
+      <input id="message" placeholder="Type or tap mic to speak..." aria-label="Your message">
       <button class="primary" onclick="send()">Send</button>
     </div>
-    <p class="muted" style="font-size:12px">Prototype mode: replies are guided prompts, not live AI. Avoid sharing passwords, addresses, or identifying private details.</p>
+    <p class="muted" style="font-size:11px; margin-top:12px; color:#958da5">Prototype mode: replies are guided prompts, not live AI. Avoid sharing passwords, addresses, or private personal data.</p>
   </section>
 
   <section class="card">
     <h2>One gentle reminder</h2>
     <p class="muted">Healthy love needs respect, honesty, communication, boundaries, and safety. You deserve to be heard, and so does the other person.</p>
-    <button onclick="showReminder()">Give me a reflection question 💜</button>
-    <p id="reminder" class="muted"></p>
+    <button style="margin-top:16px; width:100%; justify-content:center" onclick="showReminder()">Give me a reflection question 💜</button>
+    <div id="reminder" class="muted hidden"></div>
   </section>
 </main>
 
@@ -79,9 +92,81 @@ footer{text-align:center;color:#777087;font-size:12px;line-height:1.6;padding:20
   If you are in immediate danger, seek help from trusted people or local emergency services.
 </footer>
 
+<style id="darkThemeStyles">
+.dark-theme { background: #120f1d !important; color: #f1ebff !important; }
+.dark-theme .card { background: #1c182e !important; border-color: rgba(109,61,232,0.15) !important; box-shadow: 0 12px 32px rgba(0,0,0,0.2) !important; }
+.dark-theme h2 { color: #ffffff !important; }
+.dark-theme .muted { color: #a29bb5 !important; }
+.dark-theme button { background: #25203c !important; color: #e1d8f5 !important; border-color: #352e54 !important; }
+.dark-theme button:hover, .dark-theme button:active { background: #2f294d !important; }
+.dark-theme .primary { background: #6d3de8 !important; color: white !important; }
+.dark-theme .bot { background: #25203c !important; color: #f1ebff !important; border-color: #352e54 !important; }
+.dark-theme input { background: #1c182e !important; color: white !important; border-color: #352e54 !important; }
+.dark-theme .mic-btn { background: #25203c !important; color: #a29bb5 !important; }
+</style>
+
 <script>
 const chat=document.getElementById('chat');
 const input=document.getElementById('message');
+const micBtn=document.getElementById('micBtn');
+const themeBtn=document.getElementById('themeBtn');
+
+function toggleTheme() {
+  const body = document.body;
+  if (body.classList.contains('light-theme')) {
+    body.classList.remove('light-theme');
+    body.classList.add('dark-theme');
+    themeBtn.textContent = '☀️ Light';
+  } else {
+    body.classList.remove('dark-theme');
+    body.classList.add('light-theme');
+    themeBtn.textContent = '🌙 Dark';
+  }
+}
+
+let recognition;
+let isRecording = false;
+
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = function(event) {
+    const text = event.results.transcript;
+    input.value = text;
+    stopRecording();
+  };
+
+  recognition.onerror = function() { stopRecording(); };
+  recognition.onend = function() { stopRecording(); };
+} else {
+  micBtn.style.display = 'none';
+}
+
+function toggleVoice() {
+  if (!recognition) return;
+  if (isRecording) {
+    recognition.stop();
+  } else {
+    try {
+      recognition.start();
+      isRecording = true;
+      micBtn.classList.add('recording');
+      micBtn.textContent = '🛑';
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+
+function stopRecording() {
+  isRecording = false;
+  micBtn.classList.remove('recording');
+  micBtn.textContent = '🎙️';
+}
 
 function addBubble(text,who){
   const div=document.createElement('div');
@@ -136,8 +221,9 @@ function showReminder(){
     "What do I need right now: comfort, clarity, an apology, or a practical next step?",
     "What would I advise a friend I care about if they were facing this situation?"
   ];
-  document.getElementById('reminder').textContent=
-    questions[Math.floor(Math.random()*questions.length)];
+  const reminderDiv = document.getElementById('reminder');
+  reminderDiv.classList.remove('hidden');
+  reminderDiv.textContent = questions[Math.floor(Math.random()*questions.length)];
 }
 </script>
 </body>
