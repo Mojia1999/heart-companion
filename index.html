@@ -1,230 +1,414 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#5a29e3">
-<title>HEART — A Space to Be Heard</title>
-<link rel="preconnect" href="https://googleapis.com">
-<link rel="preconnect" href="https://gstatic.com" crossorigin>
-<link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fbf7f1">
+<meta name="description" content="HEART is a gentle space to reflect, communicate and work through relationship feelings.">
+<title>HEART — A space for what matters</title>
 <style>
+:root{
+  --bg:#fbf7f1;--surface:#fffdf9;--surface2:#f4ece5;--ink:#29243a;--muted:#716b78;
+  --plum:#54224f;--plum2:#713763;--terracotta:#c65f45;--lilac:#e9def0;--gold:#d8a65c;
+  --line:#e9ded5;--good:#3f705c;--shadow:0 12px 32px rgba(63,38,58,.08);--radius:20px;
+}
+[data-theme="dark"]{
+  --bg:#17151d;--surface:#211e29;--surface2:#2c2634;--ink:#f6eff7;--muted:#c0b5c6;
+  --plum:#d8a6d0;--plum2:#e5bde0;--terracotta:#f09579;--lilac:#3a3044;--gold:#edc27c;
+  --line:#3d3445;--good:#8fceb0;--shadow:0 12px 32px rgba(0,0,0,.18);
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:'Plus Jakarta Sans',sans-serif;background:#f8f6fc;color:#2c2643;-webkit-font-smoothing:antialiased}
-header{background:linear-gradient(135deg, #6d3de8, #5227cc);color:white;padding:32px 24px;border-radius:0 0 32px 32px;box-shadow:0 8px 24px rgba(109,61,232,0.15)}
-.brand{font-size:28px;font-weight:800;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px}
-header p{margin:12px 0 0;line-height:1.6;font-size:15px;color:#e8ddff;font-weight:400}
-main{max-width:600px;margin:auto;padding:24px 16px 48px}
-h2{font-size:20px;font-weight:700;margin:0 0 8px 0;letter-spacing:-0.3px}
-.muted{color:#766e8a;line-height:1.6;font-size:14px;margin:0}
-.card{background:white;border:1px solid rgba(109,61,232,0.06);border-radius:24px;padding:24px;margin-bottom:20px;box-shadow:0 12px 32px rgba(36,18,75,0.04)}
-button{font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;border:1px solid #eae4f6;border-radius:16px;padding:14px 16px;background:#fbf9ff;color:#432b80;text-align:left;transition:all 0.2s ease;display:flex;align-items:center;gap:10px;line-height:1.4}
-button:hover, button:active{background:#f3ecff;border-color:#dcd1f3;transform:translateY(-1px)}
-.choices{display:grid;grid-template-columns:1fr;gap:10px;margin-top:20px}
-@media(min-width:400px){.choices{grid-template-columns:1fr 1fr}}
-.primary{background:#6d3de8;color:white;border:0;text-align:center;justify-content:center;font-weight:600;box-shadow:0 4px 12px rgba(109,61,232,0.2)}
-.primary:hover, .primary:active{background:#5428c8;box-shadow:0 6px 16px rgba(109,61,232,0.3)}
-.mic-btn{background:#f1ebff;color:#6d3de8;border:1px solid #e2daf2;padding:0 16px}
-.mic-btn.recording{background:#ff4d4d;color:white;border-color:#ff4d4d;animation:pulse 1.5s infinite}
-#chat{min-height:180px;max-height:380px;overflow-y:auto;margin-bottom:16px;padding-right:4px}
-.bubble{padding:14px 18px;border-radius:20px;margin:12px 0;line-height:1.5;white-space:pre-wrap;font-size:14px;max-width:85%}
-.bot{background:#f3f1f8;color:#2c2643;border-bottom-left-radius:6px;margin-right:auto;border:1px solid #edeaf4}
-.user{background:#6d3de8;color:white;border-bottom-right-radius:6px;margin-left:auto;box-shadow:0 4px 12px rgba(109,61,232,0.15)}
-.inputrow{display:flex;gap:10px;margin-top:16px}
-input{font-family:inherit;min-width:0;flex:1;border:1.5px solid #e2daf2;border-radius:16px;padding:14px 16px;font-size:15px;background:#fdfcff;color:#2c2643;transition:all 0.2s ease}
-input:focus{outline:none;border-color:#6d3de8;box-shadow:0 0 0 3px rgba(109,61,232,0.1)}
-.inputrow button{text-align:center}
-footer{text-align:center;color:#857e96;font-size:12px;line-height:1.6;padding:24px 16px;font-weight:400}
-.hidden{display:none}
-#reminder{margin-top:12px;padding:12px 16px;background:#fbf9ff;border-radius:12px;border-left:3px solid #6d3de8;font-style:italic}
-@keyframes pulse{0%{opacity:1}50%{opacity:0.6}100%{opacity:1}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1050px;margin:auto;padding:18px 18px 100px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:3px 0 24px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{height:43px;width:43px;border-radius:15px;background:var(--plum);color:#fff;display:grid;place-items:center;font-size:25px;box-shadow:0 5px 12px #54224f22}
+.brand-name{font-size:1.22rem;font-weight:850;letter-spacing:.11em;color:var(--plum);line-height:1.1}
+.brand-tag{font-size:.72rem;color:var(--muted);margin-top:4px}
+.top-actions{display:flex;gap:8px}
+.icon-btn,.quiet-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:13px;padding:10px 12px}
+.hero{background:linear-gradient(125deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:28px;padding:clamp(22px,5vw,42px);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:200px;height:200px;border:1px solid var(--gold);border-radius:50%;right:-90px;top:-85px;opacity:.45;box-shadow:0 0 0 22px #d8a65c10,0 0 0 45px #d8a65c08;pointer-events:none}
+.eyebrow{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.13em;color:var(--terracotta)}
+h1{font-size:clamp(2rem,6vw,3.25rem);line-height:1.06;letter-spacing:-.045em;margin:12px 0 14px;max-width:650px}
+.hero p{color:var(--muted);max-width:580px;margin:0;font-size:1rem}
+.hero-note{display:inline-flex;gap:8px;align-items:center;margin-top:22px;padding:9px 13px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:.82rem}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:30px 0 14px}
+h2{font-size:1.12rem;margin:0;letter-spacing:-.02em}
+.sub{font-size:.84rem;color:var(--muted);margin:5px 0 0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.topic{display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-height:154px;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:19px;color:var(--ink);box-shadow:0 3px 10px #38213c05;transition:transform .16s,border-color .16s,box-shadow .16s}
+.topic:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:var(--shadow)}
+.topic-icon{width:40px;height:40px;border-radius:14px;background:var(--lilac);display:grid;place-items:center;color:var(--plum);font-size:1.2rem;margin-bottom:13px}
+.topic strong{font-size:.96rem}
+.topic span:last-child{font-size:.8rem;color:var(--muted);margin-top:5px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-top:22px}
+.panel h2{margin-bottom:5px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.field{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:12px 13px;border-radius:13px}
+.field-label{display:block;font-size:.84rem;font-weight:700;margin:13px 0 6px}
+.primary{background:var(--plum);color:#fff;border:0;border-radius:13px;padding:12px 16px;font-weight:750}
+.secondary{background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-radius:13px;padding:11px 14px;font-weight:650}
+.danger{background:transparent;border:1px solid #c65f4566;color:var(--terracotta);border-radius:12px;padding:9px 12px}
+.hidden{display:none!important}
+.chat-panel{padding:0;overflow:hidden}
+.chat-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface2)}
+.chat-head p{margin:3px 0 0;color:var(--muted);font-size:.82rem}
+.messages{padding:20px;display:flex;flex-direction:column;gap:12px;min-height:230px;max-height:50vh;overflow-y:auto}
+.bubble{max-width:88%;padding:12px 14px;border-radius:17px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.95rem}
+.bot{background:var(--surface2);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:5px}
+.user{background:var(--plum);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.composer{padding:14px;border-top:1px solid var(--line);display:flex;gap:8px;background:var(--surface)}
+.composer input{min-width:0;flex:1;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:13px;padding:12px}
+.mic{min-width:44px;border:1px solid var(--line);border-radius:13px;background:var(--surface2);color:var(--ink)}
+.small-note{font-size:.76rem;color:var(--muted);margin:10px 18px 15px}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tool-card{border:1px solid var(--line);border-radius:17px;padding:16px;background:var(--surface)}
+.tool-card p{color:var(--muted);font-size:.85rem;margin:6px 0 12px}
+.mood-options{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.mood{border:1px solid var(--line);border-radius:99px;padding:8px 11px;background:var(--bg);color:var(--ink)}
+.mood.selected{border-color:var(--plum);background:var(--lilac)}
+.entry{border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:10px}
+.entry-top{display:flex;justify-content:space-between;gap:8px;align-items:start}
+.entry p{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0}
+.entry small{color:var(--muted)}
+footer{margin-top:28px;padding:18px 4px;color:var(--muted);font-size:.78rem;text-align:center}
+footer strong{color:var(--plum)}
+.notice{border-left:3px solid var(--terracotta);padding:10px 13px;background:var(--surface2);border-radius:0 10px 10px 0;font-size:.82rem;color:var(--muted);margin-top:14px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 15px;border-radius:12px;z-index:10;box-shadow:var(--shadow);max-width:90%;font-size:.85rem}
+@media(max-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.topic{min-height:148px;padding:15px}.tools-grid{grid-template-columns:1fr}.wrap{padding:14px 13px 90px}.topbar{margin-bottom:17px}.brand-tag{max-width:170px}}
+@media(max-width:380px){.grid{grid-template-columns:1fr}.topic{min-height:0}.top-actions .quiet-btn{padding:9px}.brand-tag{display:none}}
 </style>
 </head>
-</head>
-<body class="light-theme">
-<header>
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <div class="brand">💜 HEART</div>
-    <button onclick="toggleTheme()" style="padding:8px 12px; font-size:14px; border-radius:12px; background:rgba(255,255,255,0.15); color:white; border:none;" id="themeBtn">🌙 Dark</button>
-  </div>
-  <p>A safe space to talk, understand your feelings, and find your next step.</p>
-</header>
-
-<main>
-  <section class="card">
-    <h2>Welcome. What's on your heart?</h2>
-    <p class="muted">You don't have to figure everything out at once. Choose what feels closest to your situation.</p>
-    <div class="choices">
-      <button onclick="start('talk')">💬 I need to talk</button>
-      <button onclick="start('advice')">🧭 Relationship advice</button>
-      <button onclick="start('message')">✍️ Reply to a message</button>
-      <button onclick="start('trust')">🤝 Trust and jealousy</button>
-      <button onclick="start('heartbreak')">💔 Hurting or heartbroken</button>
-      <button onclick="start('understand')">🪞 Understand feelings</button>
+<body>
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">♡</div>
+      <div><div class="brand-name">HEART</div><div class="brand-tag" data-i18n="tag">Human Emotions, Advice, Reflection &amp; Trust</div></div>
     </div>
-  </section>
-
-  <section class="card">
-    <h2>Your space to be heard</h2>
-    <p class="muted">Start by sharing only what you're comfortable sharing.</p>
-    <div id="chat" aria-live="polite">
-      <div class="bubble bot">Hi, friend. ❤️ I'm here to help you reflect without judging you. What has been happening?</div>
+    <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+      <button class="quiet-btn" id="languageBtn" title="Choose language">EN ▾</button>
     </div>
-    <div class="inputrow">
-      <button id="micBtn" class="mic-btn" onclick="toggleVoice()" title="Talk instead of typing">🎙️</button>
-      <input id="message" placeholder="Type or tap mic to speak..." aria-label="Your message">
-      <button class="primary" onclick="send()">Send</button>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="eyebrow" data-i18n="eyebrow">A little room to breathe</div>
+      <h1 data-i18n="heroTitle">Your heart deserves to be heard.</h1>
+      <p data-i18n="heroBody">Relationships can be beautiful, confusing, and hard sometimes. Start wherever you are. We’ll take it one step at a time.</p>
+      <div class="hero-note"><span aria-hidden="true">✦</span><span data-i18n="heroNote">A gentle space to reflect, not to judge.</span></div>
+    </section>
+
+    <section>
+      <div class="section-head"><div><h2 data-i18n="chooseTitle">What would you like help with?</h2><p class="sub" data-i18n="chooseSub">Choose a starting point. Each topic opens a fresh conversation.</p></div></div>
+      <div class="grid" id="topics">
+        <button class="topic" data-topic="talk"><span class="topic-icon">☏</span><strong data-i18n="talk">I need to talk</strong><span data-i18n="talkSub">Let it out at your own pace.</span></button>
+        <button class="topic" data-topic="advice"><span class="topic-icon">✧</span><strong data-i18n="advice">Relationship advice</strong><span data-i18n="adviceSub">Think through a situation.</span></button>
+        <button class="topic" data-topic="reply"><span class="topic-icon">✎</span><strong data-i18n="reply">Help me reply</strong><span data-i18n="replySub">Find the right words to say.</span></button>
+        <button class="topic" data-topic="trust"><span class="topic-icon">♡</span><strong data-i18n="trust">Trust and jealousy</strong><span data-i18n="trustSub">Explore doubts and boundaries.</span></button>
+        <button class="topic" data-topic="hurt"><span class="topic-icon">☼</span><strong data-i18n="hurt">I’m hurting</strong><span data-i18n="hurtSub">Support through heartbreak or loss.</span></button>
+        <button class="topic" data-topic="feelings"><span class="topic-icon">❋</span><strong data-i18n="feelings">Understand my feelings</strong><span data-i18n="feelingsSub">Make sense of what’s happening.</span></button>
+      </div>
+    </section>
+
+    <section class="panel chat-panel hidden" id="chatPanel" aria-live="polite">
+      <div class="chat-head">
+        <div><h2 id="chatTitle">A fresh conversation</h2><p id="chatSubtitle">Take your time. You can leave or start over whenever you want.</p></div>
+        <button class="secondary" id="newChatBtn" data-i18n="newChat">New chat</button>
+      </div>
+      <div class="messages" id="messages"></div>
+      <form class="composer" id="chatForm">
+        <input id="messageInput" autocomplete="off" maxlength="1200" placeholder="Write what’s on your mind…" aria-label="Your message">
+        <button class="mic" id="micBtn" type="button" aria-label="Voice input" title="Voice input">🎙</button>
+        <button class="primary" type="submit" data-i18n="send">Send</button>
+      </form>
+      <p class="small-note" data-i18n="chatNote">Your chats are only kept in this page while it is open. This prototype uses guided responses, not a live AI service.</p>
+    </section>
+
+    <section class="panel" id="checkin">
+      <h2 data-i18n="moodTitle">A quick check-in</h2><p class="sub" data-i18n="moodSub">No feeling is wrong. How are you arriving today?</p>
+      <div class="mood-options" id="moods">
+        <button class="mood" data-mood="okay">🙂 <span data-i18n="moodOkay">Okay</span></button>
+        <button class="mood" data-mood="happy">😊 <span data-i18n="moodHappy">Hopeful</span></button>
+        <button class="mood" data-mood="confused">😕 <span data-i18n="moodConfused">Confused</span></button>
+        <button class="mood" data-mood="sad">😔 <span data-i18n="moodSad">Sad</span></button>
+        <button class="mood" data-mood="overwhelmed">😣 <span data-i18n="moodOverwhelmed">Overwhelmed</span></button>
+      </div>
+      <p class="sub" id="moodFeedback" aria-live="polite"></p>
+    </section>
+
+    <section class="section-head"><div><h2 data-i18n="toolsTitle">Small tools for real life</h2><p class="sub" data-i18n="toolsSub">A private place to reflect and a little help finding your words.</p></div></section>
+    <div class="tools-grid">
+      <section class="tool-card" id="replyTool">
+        <h2 data-i18n="replyToolTitle">Help me say it</h2><p data-i18n="replyToolSub">Pick a situation to get a respectful message starter you can edit.</p>
+        <label class="field-label" for="replySituation" data-i18n="situationLabel">What are you trying to say?</label>
+        <select class="field" id="replySituation">
+          <option value="checkin" data-i18n="situationCheckin">I want to check in</option>
+          <option value="hurt" data-i18n="situationHurt">I felt hurt</option>
+          <option value="space" data-i18n="situationSpace">I need some space</option>
+          <option value="apology" data-i18n="situationApology">I want to apologise</option>
+          <option value="boundary" data-i18n="situationBoundary">I need to set a boundary</option>
+          <option value="clarity" data-i18n="situationClarity">I need clarity</option>
+        </select>
+        <button class="primary" id="makeReplyBtn" style="margin-top:10px" data-i18n="makeReply">Create message starter</button>
+        <textarea class="field" id="replyOutput" rows="4" maxlength="1000" style="margin-top:12px" data-i18n-placeholder="replyPlaceholder" placeholder="Your message starter will appear here. Edit it so it sounds like you."></textarea>
+        <button class="secondary" id="copyReplyBtn" data-i18n="copyText">Copy message</button>
+      </section>
+      <section class="tool-card" id="journal">
+        <h2 data-i18n="journalTitle">My Heart Journal</h2><p data-i18n="journalSub">Write privately on this device. Save only what you feel comfortable keeping.</p>
+        <label class="field-label" for="journalText" data-i18n="journalPrompt">What would you like to get off your chest?</label>
+        <textarea class="field" id="journalText" rows="4" maxlength="3000" data-i18n-placeholder="journalPlaceholder" placeholder="This space is yours. Start with one sentence…"></textarea>
+        <div class="row" style="margin-top:10px"><button class="primary" id="saveEntryBtn" data-i18n="saveEntry">Save entry on this device</button><button class="secondary" id="clearJournalBtn" data-i18n="deleteAll">Delete all</button></div>
+        <div class="notice" data-i18n="journalPrivacy">Journal entries are stored in this browser on this device. Someone with access to your unlocked phone or browser may see them. This is not a secure vault. Delete entries before sharing your device.</div>
+        <div id="journalEntries" aria-live="polite"></div>
+      </section>
     </div>
-    <p class="muted" style="font-size:11px; margin-top:12px; color:#958da5">Prototype mode: replies are guided prompts, not live AI. Avoid sharing passwords, addresses, or private personal data.</p>
-  </section>
 
-  <section class="card">
-    <h2>One gentle reminder</h2>
-    <p class="muted">Healthy love needs respect, honesty, communication, boundaries, and safety. You deserve to be heard, and so does the other person.</p>
-    <button style="margin-top:16px; width:100%; justify-content:center" onclick="showReminder()">Give me a reflection question 💜</button>
-    <div id="reminder" class="muted hidden"></div>
-  </section>
-</main>
+    <section class="panel" id="languagePanel">
+      <h2 data-i18n="languageTitle">Make HEART feel familiar</h2>
+      <p class="sub" data-i18n="languageSub">Choose the interface language that feels most comfortable. More complete translations can be added and reviewed over time.</p>
+      <label class="field-label" for="languageSelect" data-i18n="languageLabel">Interface language</label>
+      <select class="field" id="languageSelect">
+        <option value="en">English</option><option value="pcm">Nigerian Pidgin (beta)</option><option value="yo">Yorùbá (preview)</option><option value="ig">Igbo (preview)</option><option value="ha">Hausa (preview)</option>
+      </select>
+      <p class="sub" id="languageHint" style="margin-top:8px"></p>
+    </section>
 
-<footer>
-  HEART — Human Emotions, Advice, Reflection & Trust<br>
-  A supportive companion, not a replacement for professional care.<br>
-  If you are in immediate danger, seek help from trusted people or local emergency services.
-</footer>
-
-<style id="darkThemeStyles">
-.dark-theme { background: #120f1d !important; color: #f1ebff !important; }
-.dark-theme .card { background: #1c182e !important; border-color: rgba(109,61,232,0.15) !important; box-shadow: 0 12px 32px rgba(0,0,0,0.2) !important; }
-.dark-theme h2 { color: #ffffff !important; }
-.dark-theme .muted { color: #a29bb5 !important; }
-.dark-theme button { background: #25203c !important; color: #e1d8f5 !important; border-color: #352e54 !important; }
-.dark-theme button:hover, .dark-theme button:active { background: #2f294d !important; }
-.dark-theme .primary { background: #6d3de8 !important; color: white !important; }
-.dark-theme .bot { background: #25203c !important; color: #f1ebff !important; border-color: #352e54 !important; }
-.dark-theme input { background: #1c182e !important; color: white !important; border-color: #352e54 !important; }
-.dark-theme .mic-btn { background: #25203c !important; color: #a29bb5 !important; }
-</style>
-
+    <section class="panel">
+      <h2 data-i18n="careTitle">A note about care</h2>
+      <p class="sub" data-i18n="careBody">HEART is a reflection and communication tool, not a therapist or emergency service. It cannot know the full story from a few messages. If you are in immediate danger, contact local emergency services or a trusted person who can help you get somewhere safe.</p>
+    </section>
+  </main>
+  <footer><strong>HEART</strong> · <span data-i18n="footer">Human Emotions, Advice, Reflection &amp; Trust</span><br><span data-i18n="footer2">Made to listen gently. Your life and choices remain yours.</span></footer>
+</div>
+<div id="toast" class="toast hidden" role="status"></div>
 <script>
-const chat=document.getElementById('chat');
-const input=document.getElementById('message');
-const micBtn=document.getElementById('micBtn');
-const themeBtn=document.getElementById('themeBtn');
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => [...document.querySelectorAll(s)];
+  const safeRead = (key, fallback) => { try { const v=localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; } };
+  const safeWrite = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch { toast("Could not save on this device. Check browser storage settings."); return false; } };
+  let language = safeRead("heart_language", "en");
+  let currentTopic = "";
+  let userName = "";
+  let selectedMood = "";
+  let recognition = null;
 
-function toggleTheme() {
-  const body = document.body;
-  if (body.classList.contains('light-theme')) {
-    body.classList.remove('light-theme');
-    body.classList.add('dark-theme');
-    themeBtn.textContent = '☀️ Light';
-  } else {
-    body.classList.remove('dark-theme');
-    body.classList.add('light-theme');
-    themeBtn.textContent = '🌙 Dark';
-  }
-}
-
-let recognition;
-let isRecording = false;
-
-if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.lang = 'en-US';
-
-  recognition.onresult = function(event) {
-    const text = event.results.transcript;
-    input.value = text;
-    stopRecording();
+  const translations = {
+    en: {
+      tag:"Human Emotions, Advice, Reflection & Trust",eyebrow:"A little room to breathe",heroTitle:"Your heart deserves to be heard.",heroBody:"Relationships can be beautiful, confusing, and hard sometimes. Start wherever you are. We’ll take it one step at a time.",heroNote:"A gentle space to reflect, not to judge.",
+      chooseTitle:"What would you like help with?",chooseSub:"Choose a starting point. Each topic opens a fresh conversation.",talk:"I need to talk",talkSub:"Let it out at your own pace.",advice:"Relationship advice",adviceSub:"Think through a situation.",reply:"Help me reply",replySub:"Find the right words to say.",trust:"Trust and jealousy",trustSub:"Explore doubts and boundaries.",hurt:"I’m hurting",hurtSub:"Support through heartbreak or loss.",feelings:"Understand my feelings",feelingsSub:"Make sense of what’s happening.",newChat:"New chat",send:"Send",chatNote:"Your chats are only kept in this page while it is open. This prototype uses guided responses, not a live AI service.",
+      moodTitle:"A quick check-in",moodSub:"No feeling is wrong. How are you arriving today?",moodOkay:"Okay",moodHappy:"Hopeful",moodConfused:"Confused",moodSad:"Sad",moodOverwhelmed:"Overwhelmed",toolsTitle:"Small tools for real life",toolsSub:"A private place to reflect and a little help finding your words.",replyToolTitle:"Help me say it",replyToolSub:"Pick a situation to get a respectful message starter you can edit.",situationLabel:"What are you trying to say?",situationCheckin:"I want to check in",situationHurt:"I felt hurt",situationSpace:"I need some space",situationApology:"I want to apologise",situationBoundary:"I need to set a boundary",situationClarity:"I need clarity",makeReply:"Create message starter",replyPlaceholder:"Your message starter will appear here. Edit it so it sounds like you.",copyText:"Copy message",journalTitle:"My Heart Journal",journalSub:"Write privately on this device. Save only what you feel comfortable keeping.",journalPrompt:"What would you like to get off your chest?",journalPlaceholder:"This space is yours. Start with one sentence…",saveEntry:"Save entry on this device",deleteAll:"Delete all",journalPrivacy:"Journal entries are stored in this browser on this device. Someone with access to your unlocked phone or browser may see them. This is not a secure vault. Delete entries before sharing your device.",languageTitle:"Make HEART feel familiar",languageSub:"Choose the interface language that feels most comfortable. More complete translations can be added and reviewed over time.",languageLabel:"Interface language",careTitle:"A note about care",careBody:"HEART is a reflection and communication tool, not a therapist or emergency service. It cannot know the full story from a few messages. If you are in immediate danger, contact local emergency services or a trusted person who can help you get somewhere safe.",footer:"Human Emotions, Advice, Reflection & Trust",footer2:"Made to listen gently. Your life and choices remain yours."
+    },
+    pcm: {
+      tag:"Human Emotions, Advice, Reflection & Trust",eyebrow:"Small space to breathe",heroTitle:"Your heart deserve make person hear am.",heroBody:"Relationship fit sweet, confuse person, and hard sometimes. Start from where you dey. We go take am one step at a time.",heroNote:"Space to think, no be to judge.",
+      chooseTitle:"Wetin you need help with?",chooseSub:"Choose where you wan start. Each topic open fresh chat.",talk:"I need to talk",talkSub:"Talk am as e dey your mind.",advice:"Relationship advice",adviceSub:"Make we reason the matter.",reply:"Help me reply",replySub:"Find better words to talk.",trust:"Trust and jealousy",trustSub:"Talk about doubt and boundaries.",hurt:"My mind dey pain",hurtSub:"Support when love or loss pain.",feelings:"Understand my feelings",feelingsSub:"Make sense of wetin dey happen.",newChat:"New chat",send:"Send",chatNote:"Chat stay for this page only while e open. This demo use guided replies, e no connect to live AI.",
+      moodTitle:"Quick check-in",moodSub:"No feeling bad. How you dey today?",moodOkay:"I dey okay",moodHappy:"I get hope",moodConfused:"I confuse",moodSad:"I dey sad",moodOverwhelmed:"E too much",toolsTitle:"Small tools for real life",toolsSub:"Place to reflect and help you find your words.",replyToolTitle:"Help me talk am",replyToolSub:"Choose situation make we give you message starter wey you fit edit.",situationLabel:"Wetin you wan talk?",situationCheckin:"I wan check on person",situationHurt:"Wetin happen pain me",situationSpace:"I need small space",situationApology:"I wan apologise",situationBoundary:"I need set boundary",situationClarity:"I need clear answer",makeReply:"Create message starter",replyPlaceholder:"Your message go show here. Edit am make e sound like you.",copyText:"Copy message",journalTitle:"My Heart Journal",journalSub:"Write for this device. Save only wetin you comfortable keeping.",journalPrompt:"Wetin dey your mind wey you wan pour out?",journalPlaceholder:"This space na your own. Start with one sentence…",saveEntry:"Save for this device",deleteAll:"Delete all",journalPrivacy:"Journal dey this browser for this device. Person wey get access to your unlocked phone fit see am. E no be secure vault. Delete entries before you share your device.",languageTitle:"Make HEART feel familiar",languageSub:"Choose the language wey make you comfortable. More complete translations fit come later after proper review.",languageLabel:"App language",careTitle:"Small note about care",careBody:"HEART na tool to reflect and communicate, e no be therapist or emergency service. E no fit know the full story from small messages. If you dey danger now, contact local emergency help or trusted person wey fit help you reach safe place.",footer:"Human Emotions, Advice, Reflection & Trust",footer2:"We dey listen gently. Your life and choices still belong to you."
+    },
+    yo: {eyebrow:"Àyè kékeré láti mí ẹ̀mí",heroTitle:"Ọkàn rẹ yẹ kí a gbọ́ ohùn rẹ.",chooseTitle:"Kí ni o fẹ́ kí a ràn ọ́ lọ́wọ́?",talk:"Mo fẹ́ bá ẹnìkan sọ̀rọ̀",advice:"Ìmọ̀ràn nípa ìbáṣepọ̀",reply:"Ràn mí lọ́wọ́ láti dáhùn",trust:"Ìgbẹ́kẹ̀lé àti owú",hurt:"Ọkàn mi ń dun",feelings:"Láti lóye ìmọ̀lára mi",moodTitle:"Báwo ni inú rẹ ṣe rí lónìí?",journalTitle:"Ìwé ìrántí ọkàn",languageTitle:"Jẹ́ kí HEART bá ọ mu"},
+    ig: {eyebrow:"Obere ohere iku ume",heroTitle:"O kwesiri ka a nuru ihe di gi n’obi.",chooseTitle:"Kedu ihe ị chọrọ enyemaka na ya?",talk:"Achọrọ m ikwu okwu",advice:"Ndụmọdụ gbasara mmekọrịta",reply:"Nyere m aka ịza",trust:"Ntụkwasị obi na ekworo",hurt:"Obi na-ewute m",feelings:"Ịghọta mmetụta m",moodTitle:"Olee otú obi dị gị taa?",journalTitle:"Akwụkwọ ndekọ obi",languageTitle:"Mee ka HEART dịrị gị mfe"},
+    ha: {eyebrow:"Ƙaramin wuri don samun natsuwa",heroTitle:"Ya kamata a saurari zuciyarka.",chooseTitle:"Me kake son taimako a kai?",talk:"Ina son yin magana",advice:"Shawara kan dangantaka",reply:"Taimaka min in ba da amsa",trust:"Amincewa da kishi",hurt:"Zuciyata tana ciwo",feelings:"Fahimtar yadda nake ji",moodTitle:"Yaya kake ji yau?",journalTitle:"Littafin tunanin zuciyata",languageTitle:"Ka sa HEART ya dace da kai"}
   };
-
-  recognition.onerror = function() { stopRecording(); };
-  recognition.onend = function() { stopRecording(); };
-} else {
-  micBtn.style.display = 'none';
-}
-
-function toggleVoice() {
-  if (!recognition) return;
-  if (isRecording) {
-    recognition.stop();
-  } else {
-    try {
-      recognition.start();
-      isRecording = true;
-      micBtn.classList.add('recording');
-      micBtn.textContent = '🛑';
-    } catch (e) {
-      console.error(e);
+  const topicKeys = {talk:"talk",advice:"advice",reply:"reply",trust:"trust",hurt:"hurt",feelings:"feelings"};
+  const topicPrompts = {
+    talk:"What has been weighing on your heart lately?",
+    advice:"Tell me what happened, what you are hoping for, and what feels hardest right now.",
+    reply:"What did the person say, and what would you like your reply to communicate?",
+    trust:"What happened that brought up the worry? Let’s separate what you know from what you fear.",
+    hurt:"I’m sorry this is hurting. What feels most painful right now?",
+    feelings:"What happened, and what feelings have you noticed in yourself?"
+  };
+  const messageStarters = {
+    en:{
+      checkin:"Hey, you’ve been on my mind. How are you really doing? No pressure to reply immediately.",
+      hurt:"I want to share something honestly. When ___ happened, I felt ___. I’d like us to talk about it calmly and understand each other.",
+      space:"I care about this conversation, but I need a little time to settle my thoughts. Can we come back to it later?",
+      apology:"I’ve thought about what happened, and I’m sorry for ___. I can see how it affected you. I want to listen and do better.",
+      boundary:"I want us to be close and respectful. I’m not comfortable with ___. Can we agree on a way forward that respects us both?",
+      clarity:"I value honesty, so I’d like to understand where we stand. What do you want from this relationship right now?"
+    },
+    pcm:{
+      checkin:"Hey, you don dey my mind. How you really dey? No pressure to reply sharp sharp.",
+      hurt:"I wan talk something honestly. When ___ happen, e make me feel ___. I hope say we fit talk am calmly and understand each other.",
+      space:"I care about this matter, but I need small time to arrange my thoughts. Make we come back to am later?",
+      apology:"I don think about wetin happen, and I sorry for ___. I understand say e affect you. I wan listen and do better.",
+      boundary:"I want make we respect each other. I no comfortable with ___. How we fit find way wey respect both of us?",
+      clarity:"I value honesty, so I wan understand where we stand. Wetin you really want from this relationship now?"
     }
-  }
-}
-
-function stopRecording() {
-  isRecording = false;
-  micBtn.classList.remove('recording');
-  micBtn.textContent = '🎙️';
-}
-
-function addBubble(text,who){
-  const div=document.createElement('div');
-  div.className='bubble '+who;
-  div.textContent=text;
-  chat.appendChild(div);
-  chat.scrollTop=chat.scrollHeight;
-}
-
-function start(type){
-  const prompts={
-    talk:"Let's take this one step at a time. What happened, and how has it made you feel?",
-    advice:"I can help you think through your options. What happened, and what outcome are you hoping for?",
-    message:"You can describe the message and the tone you want—calm, caring, firm, or apologetic. Please leave out names and private details.",
-    trust:"Trust can be difficult when fear or uncertainty enters a relationship. What happened that made you feel worried? Let's separate what you know from what you fear.",
-    heartbreak:"I'm sorry you're hurting. You don't need to solve everything right now. What feels hardest for you at this moment?",
-    understand:"Let's explore your feelings without judging them. What happened just before you started feeling this way?"
   };
-  addBubble(prompts[type],'bot');
-  input.focus();
-}
+  const replyFallback = {
+    checkin:"Hey, I’ve been thinking of you. How are you doing? I’m here to listen when you feel ready.",
+    hurt:"I want to be honest about how I felt when ___. Can we talk about it calmly and hear each other out?",
+    space:"I need a little time to gather my thoughts. I’m not ignoring you; I’d like us to continue this conversation when I’m calmer.",
+    apology:"I’m sorry for my part in what happened. I want to understand how it affected you and take responsibility where I can.",
+    boundary:"I care about our connection, and I also need to be honest about my limits. Can we talk about a boundary that respects us both?",
+    clarity:"I’d appreciate an honest conversation about what we both want and whether our expectations match."
+  };
+  const safetyWords = ["kill myself","end my life","suicide","hurt myself","self harm","want to die","i am in danger","he hit me","she hit me","he is hitting me","she is hitting me","being abused"];
+  function t(key){return (translations[language]&&translations[language][key])||(translations.en[key])||key;}
+  function applyLanguage(){
+    const dict=translations[language]||translations.en;
+    $$("[data-i18n]").forEach(el=>{const key=el.dataset.i18n;if(dict[key])el.textContent=dict[key];});
+    $$("[data-i18n-placeholder]").forEach(el=>{const key=el.dataset.i18nPlaceholder;if(dict[key])el.placeholder=dict[key];});
+    $("#languageSelect").value=language;
+    $("#languageBtn").textContent=({en:"EN",pcm:"PCM",yo:"YO",ig:"IG",ha:"HA"})[language]+" ▾";
+    const hints={
+      en:"English interface selected.",
+      pcm:"Pidgin translations are a first draft; some long guidance and safety messages remain in English.",
+      yo:"Yorùbá is a preview: only selected headings are translated. Most guidance remains in English until reviewed by fluent speakers.",
+      ig:"Igbo is a preview: only selected headings are translated. Most guidance remains in English until reviewed by fluent speakers.",
+      ha:"Hausa is a preview: only selected headings are translated. Most guidance remains in English until reviewed by fluent speakers."
+    };
+    $("#languageHint").textContent=hints[language];
+    document.documentElement.lang=({en:"en",pcm:"en-NG",yo:"yo",ig:"ig",ha:"ha"})[language]||"en";
+  }
+  function toast(message){const el=$("#toast");el.textContent=message;el.classList.remove("hidden");clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.add("hidden"),2600);}
+  function addBubble(text,who="bot"){const b=document.createElement("div");b.className="bubble "+who;b.textContent=text;$("#messages").appendChild(b);$("#messages").scrollTop=$("#messages").scrollHeight;}
+  function topicTitle(){return t(topicKeys[currentTopic]||"talk");}
+  function startTopic(topic){
+    currentTopic=topic;userName="";$("#messages").innerHTML="";$("#chatPanel").classList.remove("hidden");$("#chatTitle").textContent=topicTitle();$("#chatSubtitle").textContent=language==="pcm"?"No rush. You fit start again anytime.":"Take your time. You can start over whenever you want.";
+    $("#messageInput").value="";
+    addBubble(language==="pcm"?"Welcome. Wetin make you choose this space today? Before we start, wetin name or nickname make I call you?":"Welcome to HEART. Before we begin, what name or nickname would you like me to use? You can also type “skip”.");
+    $("#messageInput").placeholder=language==="pcm"?"Type your name or nickname…":"Your name or nickname…";
+    $("#chatForm").dataset.stage="name";
+    $("#chatPanel").scrollIntoView({behavior:"smooth",block:"start"});
+    $("#messageInput").focus();
+  }
+  function getGuidedReply(message){
+    const m=message.toLowerCase();
+    if(safetyWords.some(w=>m.includes(w))){
+      return "I’m really sorry you’re facing this. Your safety matters more than solving the relationship right now. If you may hurt yourself or someone may hurt you, please contact local emergency services or a trusted person who can stay with you and help you reach safety. If you can, move away from anything you could use to harm yourself. HEART is not an emergency service, but you do not have to handle this alone.";
+    }
+    if(currentTopic==="reply"){
+      return "Let’s make the reply sound like you. What tone would help most: gentle, firm, apologetic, or brief? You can also use the “Help me say it” tool below for a message starter.";
+    }
+    if(currentTopic==="trust"){
+      return "That sounds unsettling. Let’s slow it down: what did you directly observe, what are you assuming, and what would you need to ask for clarity? Feeling worried doesn’t automatically prove someone has done something wrong.";
+    }
+    if(currentTopic==="hurt"){
+      return "I’m sorry this is heavy. You don’t need to solve everything at once. What feels most painful—the event itself, what it may mean, or not knowing what happens next?";
+    }
+    if(currentTopic==="advice"){
+      return "Let’s look at it without blaming you or the other person too quickly. What happened, what have you already tried, and what outcome would feel healthy and realistic for you?";
+    }
+    if(currentTopic==="feelings"){
+      return "Sometimes a few feelings arrive together. If you had to name the strongest one—sadness, anger, fear, disappointment, relief, or something else—which would it be? What do you think it is asking you to notice?";
+    }
+    return "Thank you for sharing that with me. I’m listening. What part of this feels most important for me to understand? We can take it one step at a time.";
+  }
+  function sendMessage(text){
+    const value=text.trim();if(!value)return;
+    addBubble(value,"user");$("#messageInput").value="";
+    const stage=$("#chatForm").dataset.stage;
+    if(stage==="name"){
+      userName=/^(skip|no|rather not|prefer not)$/i.test(value)?"friend":value.slice(0,50);
+      $("#chatForm").dataset.stage="chat";
+      addBubble((userName==="friend"?"That’s absolutely fine, friend.":"Nice to meet you, "+userName+".")+" "+(topicPrompts[currentTopic]||topicPrompts.talk));
+      $("#messageInput").placeholder=language==="pcm"?"Talk your mind here…":"Write what’s on your mind…";
+      return;
+    }
+    addBubble(getGuidedReply(value));
+  }
+  $("#topics").addEventListener("click",e=>{const btn=e.target.closest("[data-topic]");if(btn)startTopic(btn.dataset.topic);});
+  $("#chatForm").addEventListener("submit",e=>{e.preventDefault();sendMessage($("#messageInput").value);});
+  $("#newChatBtn").addEventListener("click",()=>{if(currentTopic)startTopic(currentTopic);});
+  $("#themeBtn").addEventListener("click",()=>{const next=document.documentElement.dataset.theme==="dark"?"light":"dark";if(next==="dark")document.documentElement.dataset.theme="dark";else delete document.documentElement.dataset.theme;safeWrite("heart_theme",next);});
+  if(safeRead("heart_theme","light")==="dark")document.documentElement.dataset.theme="dark";
+  $("#languageSelect").addEventListener("change",e=>{language=e.target.value;safeWrite("heart_language",language);applyLanguage();});
+  $("#languageBtn").addEventListener("click",()=>{$("#languageSelect").focus();$("#languageSelect").scrollIntoView({behavior:"smooth",block:"center"});toast("Choose your language from the selector below.");});
+  $$("#moods [data-mood]").forEach(btn=>btn.addEventListener("click",()=>{
+    selectedMood=btn.dataset.mood;$$(".mood").forEach(b=>b.classList.toggle("selected",b===btn));
+    const feedback={okay:"Thanks for checking in. You can take today one step at a time.",happy:"Hold on to what is giving you hope, and give yourself credit for it.",confused:"You don’t need every answer right now. Start with the one thing you know.",sad:"You deserve kindness while you feel this. Is there someone safe you can talk with today?",overwhelmed:"Let’s make the next step smaller. Take a slow breath and choose just one thing to handle first."};
+    $("#moodFeedback").textContent=feedback[selectedMood];
+  }));
+  $("#makeReplyBtn").addEventListener("click",()=>{const key=$("#replySituation").value;const set=messageStarters[language]||messageStarters.en;$("#replyOutput").value=set[key]||replyFallback[key];});
+  $("#copyReplyBtn").addEventListener("click",async()=>{const text=$("#replyOutput").value;if(!text.trim()){toast("Create a message starter first.");return;}try{await navigator.clipboard.writeText(text);toast("Message copied.");}catch{ $("#replyOutput").focus();$("#replyOutput").select();toast("Text selected. Long-press and choose Copy.");}});
+  // Voice input converts speech to text; it does not save or upload an audio recording.
+  let listening = false;
+  function resetMicButton(){
+    listening = false;
+    $("#micBtn").textContent = "🎙";
+    $("#micBtn").setAttribute("aria-pressed", "false");
+    $("#micBtn").title = "Start voice typing";
+  }
+  $("#micBtn").addEventListener("click",()=>{
+    if(listening && recognition){
+      try{ recognition.stop(); }catch{}
+      resetMicButton();
+      return;
+    }
+    const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SpeechRecognition){
+      toast("Voice typing is not available in this browser. Use the microphone on your phone keyboard instead.");
+      return;
+    }
+    try{
+      recognition=new SpeechRecognition();
+      // Browser/device support for Nigerian and local-language speech varies.
+      recognition.lang=language==="yo"?"yo-NG":language==="ig"?"ig-NG":language==="ha"?"ha-NG":language==="pcm"?"en-NG":"en-NG";
+      recognition.interimResults=false;
+      recognition.maxAlternatives=1;
+      recognition.continuous=false;
+      recognition.onstart=()=>{
+        listening=true;
+        $("#micBtn").textContent="⏹";
+        $("#micBtn").setAttribute("aria-pressed","true");
+        $("#micBtn").title="Stop voice typing";
+        toast("Listening… speak clearly, then tap stop or wait for it to finish.");
+      };
+      recognition.onresult=e=>{
+        const transcript=e.results&&e.results[0]&&e.results[0][0]&&e.results[0][0].transcript;
+        if(transcript){
+          const input=$("#messageInput");
+          input.value=(input.value.trim()?input.value.trim()+" ":"")+transcript.trim();
+          input.focus();
+        }else{
+          toast("I didn’t catch that. Please try again or use your keyboard microphone.");
+        }
+      };
+      recognition.onerror=e=>{
+        const messages={
+          "not-allowed":"Microphone permission was blocked. Allow microphone access in your browser settings.",
+          "service-not-allowed":"Voice typing is blocked by the browser. Try your phone keyboard microphone.",
+          "audio-capture":"No microphone was found. Check your phone microphone or use keyboard voice typing.",
+          "no-speech":"I didn’t hear speech. Tap the microphone and try again.",
+          "network":"The browser’s speech service had a network problem. Check your connection and try again."
+        };
+        toast(messages[e.error]||"Voice typing stopped. You can type your message or use your keyboard microphone.");
+      };
+      recognition.onend=resetMicButton;
+      recognition.start();
+    }catch{
+      resetMicButton();
+      toast("Could not start voice typing. Check microphone permission or use your keyboard microphone.");
+    }
+  });
 
-function send(){
-  const text=input.value.trim();
-  if(!text)return;
-  addBubble(text,'user');
-  input.value='';
-  const lower=text.toLowerCase();
-  let reply="Thank you for sharing that with me. What do you think hurt you most about this situation, and what would you need to feel heard or respected?";
-  if(lower.includes('cheat')||lower.includes('cheating'))
-    reply="That uncertainty can hurt. Before reaching a conclusion, let's look at what you know, what you suspect, and what you need to ask. What happened that raised your concern?";
-  else if(lower.includes('break up')||lower.includes('breakup'))
-    reply="That sounds like a big and possibly painful decision. You don't have to decide everything in this moment. Do you feel safe in this relationship, and have you been able to talk honestly about what is wrong?";
-  else if(lower.includes('sorry')||lower.includes('apolog'))
-    reply="A thoughtful apology acknowledges the impact, takes responsibility where appropriate, and avoids pressure. What do you want the other person to understand?";
-  else if(lower.includes('lonely')||lower.includes('alone'))
-    reply="Feeling alone can be heavy. Is there someone trustworthy you can talk to today? I'm also happy to help you put your feelings into words.";
-  else if(lower.includes('hurt myself')||lower.includes('end my life')||lower.includes('kill myself'))
-    reply="I'm really sorry you're in this much pain. Your safety matters right now. Please contact someone you trust and ask them to stay with you, and reach local emergency or crisis support if you may act on these thoughts. Are you in immediate danger right now?";
-  addBubble(reply,'bot');
-}
-
-input.addEventListener('keydown',function(e){
-  if(e.key==='Enter')send();
-});
-
-function showReminder(){
-  const questions=[
-    "Am I responding to what happened, or to what I fear might happen?",
-    "Can we discuss this without insults, threats, or pressure?",
-    "What boundary would help me feel respected while respecting the other person?",
-    "What do I need right now: comfort, clarity, an apology, or a practical next step?",
-    "What would I advise a friend I care about if they were facing this situation?"
-  ];
-  const reminderDiv = document.getElementById('reminder');
-  reminderDiv.classList.remove('hidden');
-  reminderDiv.textContent = questions[Math.floor(Math.random()*questions.length)];
-}
+  function getEntries(){return safeRead("heart_journal_entries",[]);}
+  function renderEntries(){
+    const box=$("#journalEntries");box.innerHTML="";const entries=getEntries();
+    if(!entries.length){const p=document.createElement("p");p.className="sub";p.textContent="No entries saved yet.";box.appendChild(p);return;}
+    entries.forEach(entry=>{
+      const article=document.createElement("article");article.className="entry";
+      const top=document.createElement("div");top.className="entry-top";
+      const date=document.createElement("small");date.textContent=new Date(entry.date).toLocaleString();
+      const del=document.createElement("button");del.className="danger";del.textContent="Delete";del.type="button";del.addEventListener("click",()=>{if(confirm("Delete this journal entry from this device?")){safeWrite("heart_journal_entries",getEntries().filter(x=>x.id!==entry.id));renderEntries();}});
+      top.append(date,del);const p=document.createElement("p");p.textContent=entry.text;article.append(top,p);box.appendChild(article);
+    });
+  }
+  $("#saveEntryBtn").addEventListener("click",()=>{
+    const text=$("#journalText").value.trim();if(!text){toast("Write a little first, even one sentence.");return;}
+    const entries=getEntries();entries.unshift({id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),date:new Date().toISOString(),text});
+    if(safeWrite("heart_journal_entries",entries)){ $("#journalText").value="";renderEntries();toast("Journal entry saved on this device.");}
+  });
+  $("#clearJournalBtn").addEventListener("click",()=>{if(confirm("Delete every saved HEART journal entry from this browser on this device? This cannot be undone.")){safeWrite("heart_journal_entries",[]);renderEntries();toast("Journal entries deleted from this browser.");}});
+  applyLanguage();renderEntries();
+})();
 </script>
 </body>
 </html>
